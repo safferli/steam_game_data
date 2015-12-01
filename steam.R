@@ -15,9 +15,23 @@ library(tidyr)
 wd <- "D:/github/steam_game_data/"
 setwd(wd)
 
+
+## load Steam data
 raw <- read.csv(file = "steam_stats.csv", stringsAsFactors = FALSE, encoding="UTF-8") %>% 
   # hourly data, top 99 games it seems
   mutate(date = as.POSIXct(timestamp, origin = "1970-01-01", tz = "UTC"))
+
+## if metacritic data does not exist, pull from Mashape API
+if (!file.exists("metacritic-games.csv")) {
+  source(metacritic-games.R)
+}
+## load metacritic data
+metacritic <- read.csv("metacritic-games.csv", stringsAsFactors = FALSE)
+
+
+
+
+
 
 dta <- raw %>% 
   mutate(
@@ -48,12 +62,7 @@ hourly %>%
 
 
 
-  
 
-
-##### API
-
-# 
 
 
 
