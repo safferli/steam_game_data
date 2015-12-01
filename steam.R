@@ -15,18 +15,9 @@ library(tidyr)
 wd <- "D:/github/steam_game_data/"
 setwd(wd)
 
-raw <- read.csv(file = "steam_stats.csv", stringsAsFactors = FALSE) %>% 
+raw <- read.csv(file = "steam_stats.csv", stringsAsFactors = FALSE, encoding="UTF-8") %>% 
   # hourly data, top 99 games it seems
   mutate(date = as.POSIXct(timestamp, origin = "1970-01-01", tz = "UTC"))
-
-summary(raw$date)
-
-games <- unique(raw$game)%>% sort()
-
-dta.days <- unique(raw$date) 
-
-max(raw$date) - min(raw$date)
-
 
 dta <- raw %>% 
   mutate(
@@ -62,34 +53,10 @@ hourly %>%
 
 ##### API
 
-# http://stackoverflow.com/questions/30382196/use-mashape-with-r
-
-#imports an http R library
-library(httr)
-# set_config(use_proxy(url="10.26.0.19", port=3128))
-set_config(use_proxy(url="proxy.ubisoft.org", port=3128))
-
-#perform a GET request on the URL, with two headers and store in a resp variable
-resp <- GET("https://metacritic-2.p.mashape.com/find/game?platform=pc&title=Portal", 
-            add_headers("X-Mashape-Key" = "JAhfTs60KOmshsg6uhdjU5uM05vgp1Z0edDjsnjK68v0TLoQMm",
-                        "Accept" = "application/json"))
-
-#Prints the headers
-headers(resp)
-
-#Prints the content of the response
-str(content(resp))
-
-# curl --get --include 'https://metacritic-2.p.mashape.com/find/game?platform=pc&title=Portal' \
-# -H 'X-Mashape-Key: JAhfTs60KOmshsg6uhdjU5uM05vgp1Z0edDjsnjK68v0TLoQMm' \
-# -H 'Accept: application/json'
-
-library(jsonlite)
-
-test <- as.data.frame(unlist(fromJSON(content(resp, as = "text"))))
+# 
 
 
-  
+
 
 
 
