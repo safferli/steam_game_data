@@ -39,6 +39,7 @@ f.get.metacritic <- function(game, key = Mashape.Key) {
   
   ## bind results into a dataframe
   # replace NULL with empty strings in json, so that we can coerce into a dataframe without errors
+  # jsonlite has no nullValue option, see issue #70: https://github.com/jeroenooms/jsonlite/issues/70
   metacritic <- as.data.frame(fromJSON(gsub(":null,", ":\"\",", content(resp, as = "text"))), stringsAsFactors = FALSE)
   # this is far nicer, do.call makes better dfs
   #metacritic <- data.frame(do.call(rbind, fromJSON(content(resp, as = "text")))))
@@ -46,7 +47,6 @@ f.get.metacritic <- function(game, key = Mashape.Key) {
   ## return data 
   return(metacritic)
 }
-
 
 
 num.of.games <- length(games.web)
@@ -73,11 +73,6 @@ metacritic <- data.frame(name = games) %>%
 
 ## export to avoid future querying of API
 write.csv(metacritic, file="metacritic-games.csv", row.names = FALSE)
-
-
-
-
-
 
 
 
