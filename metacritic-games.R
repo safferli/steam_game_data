@@ -23,7 +23,7 @@ games <- unique(raw$game) %>%
 ## replace spaces with "%20" for url handling
 games.web <- gsub(" ", "%20", games)
 # smaller dataset for testing
-games.web <- head(games.web)
+#games.web <- head(games.web)
 
 
 f.get.metacritic <- function(game, key = Mashape.Key) {
